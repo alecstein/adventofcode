@@ -39,7 +39,7 @@ func firstDigit(s string) (int, int) {
 // Returns (index, value) where index is the index of the last digit
 // and value is its value. Index is measured from the end of the string
 func lastDigit(s string) (int, int) {
-	return firstDigit(utils.ReverseString(s))
+	return firstDigit(utils.Reverse(s))
 }
 
 // Returns (index, value) where index is the index of the first (word) number
@@ -82,14 +82,13 @@ func firstDigitOrNumber(m map[string]int, s string) (int, int) {
 func lastDigitOrNumber(m map[string]int, s string) (int, int) {
 	revMap := make(map[string]int)
 	for k, v := range nums {
-		revMap[utils.ReverseString(k)] = v
+		revMap[utils.Reverse(k)] = v
 	}
-	return firstDigitOrNumber(revMap, utils.ReverseString(s))
+	return firstDigitOrNumber(revMap, utils.Reverse(s))
 }
 
 func main() {
-	input, _ := utils.GetPuzzleInput("https://adventofcode.com/2023/day/1/input")
-	lines := strings.Split(input, "\n")
+	lines, _ := utils.GetPuzzleInputAsLines("https://adventofcode.com/2023/day/1/input")
 
 	// Part one
 	s := 0
@@ -99,8 +98,7 @@ func main() {
 		twoDigitNumber := first*10 + last
 		s += twoDigitNumber
 	}
-	fmt.Println("The sum of the first and last digits in each string is:")
-	fmt.Println(s)
+	fmt.Printf("The sum of the first and last digits in each string is:\n%d\n", s)
 
 	// Part two
 	s = 0
@@ -110,6 +108,5 @@ func main() {
 		twoDigitNumber := first*10 + last
 		s += twoDigitNumber
 	}
-	fmt.Println("The sum of the first and last **number of any kind** in each string is:")
-	fmt.Println(s)
+	fmt.Printf("The sum of the first and last **number of any kind** in each string is:\n%d\n", s)
 }
