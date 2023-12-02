@@ -36,7 +36,7 @@ func firstDigit(s string) (int, int) {
 	return -1, -1
 }
 
-// Returns (index, value) where index is the index of the first digit
+// Returns (index, value) where index is the index of the last digit
 // and value is its value. Index is measured from the end of the string
 func lastDigit(s string) (int, int) {
 	return firstDigit(utils.ReverseString(s))
@@ -44,8 +44,6 @@ func lastDigit(s string) (int, int) {
 
 // Returns (index, value) where index is the index of the first (word) number
 // and value is its value
-// Takes in a map for the string representations of digits
-// To apply this to a reversed string, pass in a reversed map
 func firstNumber(m map[string]int, s string) (int, int) {
 	wIndex, wValue := -1, -1
 
@@ -79,7 +77,7 @@ func firstDigitOrNumber(m map[string]int, s string) (int, int) {
 	return dIndex, dValue
 }
 
-// Returns (index, value) where index is the index of the first digit or number
+// Returns (index, value) where index is the index of the last digit or number
 // and value is its value. Index is measured from the end of the string
 func lastDigitOrNumber(m map[string]int, s string) (int, int) {
 	revMap := make(map[string]int)
