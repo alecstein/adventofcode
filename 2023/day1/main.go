@@ -1,5 +1,11 @@
 package main
 
+/*
+To check for the last word-number in the string, I reversed the string
+and searched for the earliest reversed number. That was the only non-trivial
+part of this problem.
+*/
+
 import (
 	"adventofcode/utils"
 	"fmt"
@@ -28,6 +34,12 @@ func firstDigit(s string) (int, int) {
 		}
 	}
 	return -1, -1
+}
+
+// Returns (index, value) where index is the index of the first digit
+// and value is its value. Index is measured from the end of the string
+func lastDigit(s string) (int, int) {
+	return firstDigit(utils.ReverseString(s))
 }
 
 // Returns (index, value) where index is the index of the first (word) number
@@ -67,6 +79,16 @@ func firstDigitOrNumber(m map[string]int, s string) (int, int) {
 	return dIndex, dValue
 }
 
+// Returns (index, value) where index is the index of the first digit or number
+// and value is its value. Index is measured from the end of the string
+func lastDigitOrNumber(m map[string]int, s string) (int, int) {
+	revMap := make(map[string]int)
+	for k, v := range nums {
+		revMap[utils.ReverseString(k)] = v
+	}
+	return firstDigitOrNumber(revMap, utils.ReverseString(s))
+}
+
 func main() {
 	input, _ := utils.GetPuzzleInput("https://adventofcode.com/2023/day/1/input")
 
@@ -74,7 +96,7 @@ func main() {
 	var s int
 	for _, line := range strings.Split(input, "\n") {
 		_, first := firstDigit(line)
-		_, last := firstDigit(utils.ReverseString(line))
+		_, last := lastDigit(line)
 		twoDigitNumber := first*10 + last
 		s += twoDigitNumber
 	}
@@ -85,12 +107,7 @@ func main() {
 	s = 0
 	for _, line := range strings.Split(input, "\n") {
 		_, first := firstDigitOrNumber(nums, line)
-
-		revMap := make(map[string]int)
-		for k, v := range nums {
-			revMap[utils.ReverseString(k)] = v
-		}
-		_, last := firstDigitOrNumber(revMap, utils.ReverseString(line))
+		_, last := lastDigitOrNumber(nums, line)
 
 		twoDigitNumber := first*10 + last
 		s += twoDigitNumber
