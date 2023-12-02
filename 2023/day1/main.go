@@ -89,10 +89,11 @@ func lastDigitOrNumber(m map[string]int, s string) (int, int) {
 
 func main() {
 	input, _ := utils.GetPuzzleInput("https://adventofcode.com/2023/day/1/input")
+	lines := strings.Split(input, "\n")
 
 	// Part one
-	var s int
-	for _, line := range strings.Split(input, "\n") {
+	s := 0
+	for _, line := range lines {
 		_, first := firstDigit(line)
 		_, last := lastDigit(line)
 		twoDigitNumber := first*10 + last
@@ -103,10 +104,9 @@ func main() {
 
 	// Part two
 	s = 0
-	for _, line := range strings.Split(input, "\n") {
+	for _, line := range lines {
 		_, first := firstDigitOrNumber(nums, line)
 		_, last := lastDigitOrNumber(nums, line)
-
 		twoDigitNumber := first*10 + last
 		s += twoDigitNumber
 	}
