@@ -1,5 +1,10 @@
 package main
 
+/*
+I found this problem pretty tedious, but I do feel like it exposed some
+of my weaknesses in string/struct manipulation.
+*/
+
 import (
 	"adventofcode/utils"
 	"fmt"
