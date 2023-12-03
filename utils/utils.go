@@ -14,7 +14,7 @@ func GetPuzzleInput(url string) (string, error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	req.Header.Set("Cookie", "session=53616c7465645f5f4d886fc038ad5d8ec590b91a029eec7512efcdbd9344bbb378a078aab12a11c8b34e947f45c9a2daa16b7f99db66c0da56207062d3d83b0e")
+	req.Header.Set("Cookie", SessionCookie)
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatal(err)
