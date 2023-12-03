@@ -1,5 +1,10 @@
 /*
- Saw a solution like this on reddit and loved it.
+	I was curious about how other people solved this. I thought my solution was acceptable,
+	but could be better.
+	Saw a solution like this on reddit and loved it:
+	https://github.com/Queueue0/aoc2023/blob/main/day3/main.go
+	I had a hunch it could be cleaner and shorter, and in fact it could be.
+	Really enjoyed coding this up.
 */
 
 package main
@@ -30,7 +35,7 @@ func main() {
 	numbers := make([]Number, 0)
 	symbols := make([]Symbol, 0)
 	for y, line := range lines {
-		line = line + "."
+		line = line + "." // An easy way to handle the "edge" case where a number is at the end of a line
 		n := Number{}
 		s := Symbol{}
 		for x, char := range line {
