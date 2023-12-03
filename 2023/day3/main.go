@@ -62,18 +62,18 @@ func main() {
 		matches := re.FindAllStringIndex(line, -1)
 		for _, match := range matches {
 			// For each number found, get the characters in the bounding box around it
-			startIdx := match[0]
+			begIdx := match[0]
 			endIdx := match[1]
 
-			charLeft := string(line[startIdx-1])
+			charLeft := string(line[begIdx-1])
 			charRight := string(line[endIdx])
-			charsTop := string(lines[i-1][startIdx-1 : endIdx+1])
-			charsBottom := string(lines[i+1][startIdx-1 : endIdx+1])
+			charsTop := string(lines[i-1][begIdx-1 : endIdx+1])
+			charsBottom := string(lines[i+1][begIdx-1 : endIdx+1])
 
 			charsBorder := charLeft + charRight + charsTop + charsBottom
 
 			if isPartNumber(charsBorder) {
-				num, _ := strconv.Atoi(line[startIdx:endIdx])
+				num, _ := strconv.Atoi(line[begIdx:endIdx])
 				s += num
 			}
 		}
