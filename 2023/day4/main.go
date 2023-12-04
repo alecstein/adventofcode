@@ -12,12 +12,15 @@ import (
 	"adventofcode/utils"
 	"fmt"
 	"strings"
+	"time"
 )
 
 func main() {
 	// input, _ := utils.GetPuzzleInput("https://adventofcode.com/2023/day/4/input")
 	// Optional local import
 	input, _ := utils.GetPuzzleInputFromFile("input.txt")
+
+	start := time.Now()
 
 	// input = []string{
 	// 	"Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53",
@@ -48,20 +51,10 @@ func main() {
 		)
 
 		winningNumbersString := splitLine[1]
-		winningNumbers := strings.FieldsFunc(
-			winningNumbersString,
-			func(r rune) bool {
-				return r == ' '
-			},
-		)
+		winningNumbers := strings.Fields(winningNumbersString)
 
 		numbersString := splitLine[2]
-		numbers := strings.FieldsFunc(
-			numbersString,
-			func(r rune) bool {
-				return r == ' '
-			},
-		)
+		numbers := strings.Fields(numbersString)
 
 		// Part one
 		points := 0
@@ -107,5 +100,7 @@ func main() {
 
 	fmt.Println("The number of scratchcards you end up with is:")
 	fmt.Println(sum)
+
+	fmt.Println(time.Since(start))
 
 }
