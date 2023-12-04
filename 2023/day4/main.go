@@ -17,16 +17,10 @@ import (
 	"strings"
 )
 
-type Card struct {
-	WinningNumbers []string
-	Numbers        []string
-	CurrentCopies  int
-}
-
 func main() {
-	input, _ := utils.GetPuzzleInput("https://adventofcode.com/2023/day/4/input")
+	// input, _ := utils.GetPuzzleInput("https://adventofcode.com/2023/day/4/input")
 	// Optional local import
-	// input, _ = utils.GetPuzzleInputFromFile("input.txt")
+	input, _ := utils.GetPuzzleInputFromFile("input.txt")
 
 	// input = []string{
 	// 	"Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53",
@@ -39,6 +33,7 @@ func main() {
 
 	colIdx := strings.Index(input[0], ":")
 	pipIdx := strings.Index(input[0], "|")
+	numPat := regexp.MustCompile(`(\d+)`)
 
 	// Used for Part two
 	copiesArr := make([]int, len(input))
@@ -48,9 +43,9 @@ func main() {
 
 	// Part one
 	sum := 0
+
 	for i, line := range input {
 		winningNumbersString := line[colIdx+1 : pipIdx-1]
-		numPat := regexp.MustCompile(`(\d+)`)
 		winningNumberMatches := numPat.FindAllString(winningNumbersString, -1)
 		numbersString := line[pipIdx+1:]
 		numbersMatches := numPat.FindAllString(numbersString, -1)
