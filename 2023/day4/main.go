@@ -1,9 +1,12 @@
 /*
 I learned a bit about regex and string indexing. It turns
 out the FieldsFunc is a much nicer way of splitting strings,
-and more efficient than regex.
+and more efficient than regex. strings.Fields is nice too.
 
 I made some effor to solve this in a single pass and without structs.
+
+Wasn't able to figure out Benchmarking in VS Code, but learned about
+the concept at least.
 */
 
 package main
