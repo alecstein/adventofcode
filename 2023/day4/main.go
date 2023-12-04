@@ -2,6 +2,9 @@
 I learned a bit about regex and string indexing.
 My initial solution used lots of structs, when it turned out
 arrays worked just fine.
+
+I made little effort to optimize this. You can save some
+pattern matching by making a datastructure, but I decided against it.
 */
 
 package main
@@ -13,8 +16,16 @@ import (
 	"strings"
 )
 
+type Card struct {
+	WinningNumbers []string
+	Numbers        []string
+	CurrentCopies  int
+}
+
 func main() {
 	input, _ := utils.GetPuzzleInputAsLines("https://adventofcode.com/2023/day/4/input")
+	// Optional local import
+	// input, _ := utils.GetPuzzleInputFromFile("input.txt")
 
 	// input = []string{
 	// 	"Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53",
