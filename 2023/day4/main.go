@@ -3,8 +3,9 @@ I learned a bit about regex and string indexing.
 My initial solution used lots of structs, when it turned out
 arrays worked just fine.
 
-I made little effort to optimize this. You can save some
-pattern matching by making a datastructure, but I decided against it.
+I didn't make much effort to super-optimize this, but I did decide
+to try solving it in a single pass, which is why Part one and Part two
+are interleaved.
 */
 
 package main
@@ -25,7 +26,7 @@ type Card struct {
 func main() {
 	input, _ := utils.GetPuzzleInput("https://adventofcode.com/2023/day/4/input")
 	// Optional local import
-	// input, _ := utils.GetPuzzleInputFromFile("input.txt")
+	// input, _ = utils.GetPuzzleInputFromFile("input.txt")
 
 	// input = []string{
 	// 	"Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53",
@@ -39,14 +40,22 @@ func main() {
 	colIdx := strings.Index(input[0], ":")
 	pipIdx := strings.Index(input[0], "|")
 
+	// Used for Part two
+	copiesArr := make([]int, len(input))
+	for i := range input {
+		copiesArr[i] = 1
+	}
+
 	// Part one
 	sum := 0
-	for _, line := range input {
+	for i, line := range input {
 		winningNumbersString := line[colIdx+1 : pipIdx-1]
 		numPat := regexp.MustCompile(`(\d+)`)
 		winningNumberMatches := numPat.FindAllString(winningNumbersString, -1)
 		numbersString := line[pipIdx+1:]
 		numbersMatches := numPat.FindAllString(numbersString, -1)
+
+		// Part one
 		points := 0
 		for _, n := range numbersMatches {
 			for _, w := range winningNumberMatches {
@@ -59,23 +68,10 @@ func main() {
 				}
 			}
 		}
+
 		sum += points
-	}
 
-	fmt.Println("The sum of all the points is:")
-	fmt.Println(sum)
-
-	// Part two
-	copiesArr := make([]int, len(input))
-	for i := range input {
-		copiesArr[i] = 1
-	}
-	for i, line := range input {
-		winningNumbersString := line[colIdx+1 : pipIdx-1]
-		numPat := regexp.MustCompile(`(\d+)`)
-		winningNumberMatches := numPat.FindAllString(winningNumbersString, -1)
-		numbersString := line[pipIdx+1:]
-		numbersMatches := numPat.FindAllString(numbersString, -1)
+		// Part two (separated clarity)
 		score := 0
 		for _, n := range numbersMatches {
 			for _, w := range winningNumberMatches {
@@ -84,12 +80,18 @@ func main() {
 				}
 			}
 		}
+
 		for j := 1; j <= score; j++ {
 			if i+j < len(input) {
 				copiesArr[i+j] += copiesArr[i]
 			}
 		}
+
 	}
+
+	fmt.Println("The sum of all the points is:")
+	fmt.Println(sum)
+
 	sum = 0
 	for _, copies := range copiesArr {
 		sum += copies
@@ -97,4 +99,5 @@ func main() {
 
 	fmt.Println("The number of scratchcards you end up with is:")
 	fmt.Println(sum)
+
 }
