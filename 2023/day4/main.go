@@ -1,11 +1,9 @@
 /*
-I learned a bit about regex and string indexing.
-My initial solution used lots of structs, when it turned out
-arrays worked just fine.
+I learned a bit about regex and string indexing. It turns
+out the FieldsFunc is a much nicer way of splitting strings,
+and more efficient than regex.
 
-I didn't make much effort to super-optimize this, but I did decide
-to try solving it in a single pass, which is why Part one and Part two
-are interleaved.
+I made some effor to solve this in a single pass and without structs.
 */
 
 package main
@@ -13,7 +11,6 @@ package main
 import (
 	"adventofcode/utils"
 	"fmt"
-	"regexp"
 	"strings"
 )
 
@@ -31,10 +28,6 @@ func main() {
 	// 	"Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11",
 	// }
 
-	colIdx := strings.Index(input[0], ":")
-	pipIdx := strings.Index(input[0], "|")
-	numPat := regexp.MustCompile(`(\d+)`)
-
 	// Used for Part two
 	copiesArr := make([]int, len(input))
 	for i := range input {
@@ -45,15 +38,35 @@ func main() {
 	sum := 0
 
 	for i, line := range input {
-		winningNumbersString := line[colIdx+1 : pipIdx-1]
-		winningNumberMatches := numPat.FindAllString(winningNumbersString, -1)
-		numbersString := line[pipIdx+1:]
-		numbersMatches := numPat.FindAllString(numbersString, -1)
+		// FieldsFunc is a great discovery!
+		// https://pkg.go.dev/strings#FieldsFunc
+		splitLine := strings.FieldsFunc(
+			line,
+			func(r rune) bool {
+				return r == ':' || r == '|'
+			},
+		)
+
+		winningNumbersString := splitLine[1]
+		winningNumbers := strings.FieldsFunc(
+			winningNumbersString,
+			func(r rune) bool {
+				return r == ' '
+			},
+		)
+
+		numbersString := splitLine[2]
+		numbers := strings.FieldsFunc(
+			numbersString,
+			func(r rune) bool {
+				return r == ' '
+			},
+		)
 
 		// Part one
 		points := 0
-		for _, n := range numbersMatches {
-			for _, w := range winningNumberMatches {
+		for _, n := range numbers {
+			for _, w := range winningNumbers {
 				if n == w {
 					if points == 0 {
 						points = 1
@@ -68,8 +81,8 @@ func main() {
 
 		// Part two (separated clarity)
 		score := 0
-		for _, n := range numbersMatches {
-			for _, w := range winningNumberMatches {
+		for _, n := range numbers {
+			for _, w := range winningNumbers {
 				if n == w {
 					score++
 				}
