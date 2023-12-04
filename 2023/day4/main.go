@@ -13,13 +13,6 @@ import (
 	"strings"
 )
 
-type Card struct {
-	ID             int
-	WinningNumbers []int
-	Numbers        []int
-	CurrentCopies  int
-}
-
 func main() {
 	input, _ := utils.GetPuzzleInputAsLines("https://adventofcode.com/2023/day/4/input")
 
