@@ -30,7 +30,7 @@ type Symbol struct {
 }
 
 func main() {
-	lines, _ := utils.GetPuzzleInputAsLines("https://adventofcode.com/2023/day/3/input")
+	lines, _ := utils.GetPuzzleInput("https://adventofcode.com/2023/day/3/input")
 
 	numbers := make([]Number, 0)
 	symbols := make([]Symbol, 0)

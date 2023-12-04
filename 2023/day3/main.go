@@ -38,7 +38,7 @@ type Star struct {
 }
 
 func main() {
-	lines, _ := utils.GetPuzzleInputAsLines("https://adventofcode.com/2023/day/3/input")
+	lines, _ := utils.GetPuzzleInput("https://adventofcode.com/2023/day/3/input")
 
 	/*
 		To avoid out-of-bounds errors, we add a padding of periods to the top, bottom,

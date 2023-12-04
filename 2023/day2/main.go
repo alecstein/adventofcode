@@ -99,7 +99,7 @@ func (g Game) minSet() (int, int, int) {
 }
 
 func main() {
-	lines, _ := utils.GetPuzzleInputAsLines("https://adventofcode.com/2023/day/2/input")
+	lines, _ := utils.GetPuzzleInput("https://adventofcode.com/2023/day/2/input")
 
 	// Part one
 	s := 0

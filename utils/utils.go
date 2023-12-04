@@ -10,7 +10,8 @@ import (
 )
 
 // From curlconverter.com
-func GetPuzzleInput(url string) (string, error) {
+// Return the puzzle input as a slice of strings
+func GetPuzzleInput(url string) ([]string, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -26,15 +27,8 @@ func GetPuzzleInput(url string) (string, error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return string(bodyText), err
-}
 
-func GetPuzzleInputAsLines(url string) ([]string, error) {
-	input, err := GetPuzzleInput(url)
-	if err != nil {
-		log.Fatal(err)
-	}
-	lines := strings.Split(input, "\n")
+	lines := strings.Split(string(bodyText), "\n")
 	// drop any empty lines
 	for i, line := range lines {
 		if line == "" {

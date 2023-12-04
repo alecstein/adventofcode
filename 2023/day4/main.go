@@ -23,7 +23,7 @@ type Card struct {
 }
 
 func main() {
-	input, _ := utils.GetPuzzleInputAsLines("https://adventofcode.com/2023/day/4/input")
+	input, _ := utils.GetPuzzleInput("https://adventofcode.com/2023/day/4/input")
 	// Optional local import
 	// input, _ := utils.GetPuzzleInputFromFile("input.txt")
 
