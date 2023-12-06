@@ -30,11 +30,11 @@ func GetPuzzleInput(url string) ([]string, error) {
 
 	lines := strings.Split(string(bodyText), "\n")
 	// drop any empty lines
-	for i, line := range lines {
-		if line == "" {
-			lines = append(lines[:i], lines[i+1:]...)
-		}
-	}
+	// for i, line := range lines {
+	// 	if line == "" {
+	// 		lines = append(lines[:i], lines[i+1:]...)
+	// 	}
+	// }
 	return lines, err
 }
 
