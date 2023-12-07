@@ -69,46 +69,36 @@ func applyMaps(rs []Range, ms []SourceDestinationMap) []Range {
 	for _, m := range ms {
 		unmappedRs := make([]Range, 0)
 		for _, r := range rs {
-			// If there's no overlap, the range is unchanged and gets added to the array
-			if r.Start >= m.SourceRangeStart+m.RangeLength || r.Start+r.Length <= m.SourceRangeStart {
-				unmappedRs = append(unmappedRs, r)
-				continue
-			}
-			if (r.Start <= m.SourceRangeStart) && (r.Start+r.Length > m.SourceRangeStart) {
+			if (r.Start < m.SourceRangeStart) && (m.SourceRangeStart < r.Start+r.Length) {
 				// |--------range---------|    or    |--------range---|
 				//        |---map----|                      |---map------|
 				// |------|----------|----|          |------|------------|
 				// a      c          d    b                           |xx|
-				// a      c          d    b          a      c         b  d
+				// ]                                 a      c         b  d
 
-				rLeft := r
+				rLeft := r                                  // Always exists
 				rLeft.Length = m.SourceRangeStart - r.Start // c - a
+				unmappedRs = append(unmappedRs, rLeft)
 
 				rRight := r
 				rRight.Start = m.SourceRangeStart + m.RangeLength                         // b
 				rRight.Length = r.Start + r.Length - (m.SourceRangeStart + m.RangeLength) // b - d (can be negative)
 
-				rMiddle := r
+				rMiddle := r                            // Always exists
 				rMiddle.Start = m.DestinationRangeStart // c
 				rMiddle.Length = m.RangeLength
 				if rRight.Length < 0 {
 					rMiddle.Length += rRight.Length
 				}
-
-				if rLeft.Length > 0 {
-					unmappedRs = append(unmappedRs, rLeft)
-				}
-				if rMiddle.Length > 0 {
-					mappedRs = append(mappedRs, rMiddle)
-				}
+				mappedRs = append(mappedRs, rMiddle)
 
 				if rRight.Length > 0 {
 					unmappedRs = append(unmappedRs, rRight)
 				}
-			} else if (r.Start >= m.SourceRangeStart) && (r.Start < m.SourceRangeStart+m.RangeLength) {
-				//          |---range---|      or           |---range------------|
-				// |----------map-----------|      |----------map-----------|
-				//          |-----------|xxx|               |---------------|----|
+			} else if (m.SourceRangeStart <= r.Start) && (r.Start <= m.SourceRangeStart+m.RangeLength) {
+				//          |---range---|      or           |---range------------|  or  |---range---|
+				// |----------map-----------|      |----------map-----------|           |----------map-----------|
+				//          |-----------|                   |---------------|----|      |------------|
 
 				rRight := r
 				rRight.Start = m.SourceRangeStart + m.RangeLength
@@ -120,13 +110,13 @@ func applyMaps(rs []Range, ms []SourceDestinationMap) []Range {
 				rLeft := r
 				rLeft.Start = m.DestinationRangeStart + (r.Start - m.SourceRangeStart)
 				rLeft.Length = r.Length - rRight.Length
+				mappedRs = append(mappedRs, rLeft)
 
-				if rLeft.Length > 0 {
-					mappedRs = append(mappedRs, rLeft)
-				}
 				if rRight.Length > 0 {
 					unmappedRs = append(unmappedRs, rRight)
 				}
+			} else {
+				unmappedRs = append(unmappedRs, r)
 			}
 		}
 		rs = unmappedRs
