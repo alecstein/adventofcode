@@ -1,3 +1,20 @@
+/*
+Oof. This was rough, and it was the first one where Part Two took me more than a day.
+Even Part One took a while, just to understand what they were asking. The solution that works
+for Part One won't even remotely work for Part Two: a brute-force search won't do.
+
+The trick is to realize:
+	1. Each map is basically a non-overlapping array of submaps
+	2. Each submap operates piecewise on the original set of ranges to produce a new set of ranges
+
+Visually, each application of a map does something like:
+unmapped_range(s):              |-------------range--------|  |------range-------|
+list_of_maps:		    { submap_A }           { submap_B }
+
+mapped_range(s):	|--A--|         |--range--|               |------range-------|  |----B----|
+Once you realize this, it just comes down to coding the solution up.
+*/
+
 package main
 
 import (
@@ -121,42 +138,6 @@ func applyMaps(rs []Range, ms []SourceDestinationMap) []Range {
 func main() {
 
 	input, _ := utils.GetPuzzleInput("https://adventofcode.com/2023/day/5/input")
-
-	// input = []string{
-	// 	"seeds: 79 14 55 13",
-	// 	"",
-	// 	"seed-to-soil map:",
-	// 	"50 98 2",
-	// 	"52 50 48",
-	// 	"",
-	// 	"soil-to-fertilizer map:",
-	// 	"0 15 37",
-	// 	"37 52 2",
-	// 	"39 0 15",
-	// 	"",
-	// 	"fertilizer-to-water map:",
-	// 	"49 53 8",
-	// 	"0 11 42",
-	// 	"42 0 7",
-	// 	"57 7 4",
-	// 	"",
-	// 	"water-to-light map:",
-	// 	"88 18 7",
-	// 	"18 25 70",
-	// 	"",
-	// 	"light-to-temperature map:",
-	// 	"45 77 23",
-	// 	"81 45 19",
-	// 	"68 64 13",
-	// 	"",
-	// 	"temperature-to-humidity map:",
-	// 	"0 69 1",
-	// 	"1 0 69",
-	// 	"",
-	// 	"humidity-to-location map:",
-	// 	"60 56 37",
-	// 	"56 93 4",
-	// }
 
 	seeds, maps := parseInput(input)
 
