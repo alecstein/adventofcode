@@ -6,6 +6,15 @@ import (
 	"strings"
 )
 
+func everythingEndsInZ(a []string) bool {
+	for _, v := range a {
+		if v[2] != 'Z' {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
 	input, _ := utils.GetPuzzleInput("https://adventofcode.com/2023/day/8/input")
 
@@ -36,6 +45,30 @@ func main() {
 			v = 1
 		}
 		loc = network[loc][v]
+		i++
+	}
+
+	fmt.Println(counts)
+
+	counts = 0
+	i = 0
+	locs := make([]string, 0)
+	for k := range network {
+		if k[2] == 'A' {
+			locs = append(locs, k)
+		}
+	}
+
+	for !everythingEndsInZ(locs) {
+		counts++
+		j := i % len(instructions)
+		v := 0
+		if instructions[j] == 'R' {
+			v = 1
+		}
+		for i, v := range locs {
+			locs[i] = network[locs[i]][v]
+		}
 		i++
 	}
 
