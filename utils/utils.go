@@ -61,3 +61,14 @@ func Reverse(s string) string {
 	}
 	return rev
 }
+
+func GCD(a, b int) int {
+	if a == 0 {
+		return b
+	}
+	return GCD(b%a, a)
+}
+
+func LCM(a, b int) int {
+	return a * b / GCD(a, b)
+}
